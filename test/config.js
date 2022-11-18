@@ -1,0 +1,3 @@
+module.exports = {
+    WETH_ADDRESS: '0xF084e2C78769CB68Dfd3007f00C9B85baEB059a3',
+}
