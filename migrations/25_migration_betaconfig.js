@@ -24,13 +24,13 @@ module.exports = async function (deployer, network) {
       await settingsProxy.setAuctionExtendLength(600);
       console.log('settingsProxy.setAuctionExtendLength(600)')
     }
-    if ((await settingsProxy.votingDelayBlock()).toString() != '12') {
-      await settingsProxy.setVotingDelayBlock(12);
-      console.log('settingsProxy.setVotingDelayBlock(12)')
+    if ((await settingsProxy.votingDelayBlock()).toString() != '10') {
+      await settingsProxy.setVotingDelayBlock(10);
+      console.log('settingsProxy.setVotingDelayBlock(10)')
     }
-    if ((await settingsProxy.votingPeriodBlock()).toString() != '30') {
-      await settingsProxy.setVotingPeriodBlock(30);
-      console.log('settingsProxy.setVotingPeriodBlock(30)')
+    if ((await settingsProxy.votingPeriodBlock()).toString() != '25') {
+      await settingsProxy.setVotingPeriodBlock(25);
+      console.log('settingsProxy.setVotingPeriodBlock(25)')
     }
     if ((await settingsProxy.term1Duration()).toString() != '600') {
       await settingsProxy.setTerm1Duration(600);

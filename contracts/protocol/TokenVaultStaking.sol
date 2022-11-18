@@ -233,7 +233,6 @@ contract TokenVaultStaking is
         validPool(poolId)
     {
         require(!ITreasury(IVault(vaultToken).treasury()).isEnded(), "ended");
-        require(IVault(vaultToken).stakingPoolEnabled(), "staking not enable");
         require(amount > 0, "zero amount");
         //
         changingBalance = amount;

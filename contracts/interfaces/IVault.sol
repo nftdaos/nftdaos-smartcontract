@@ -26,8 +26,6 @@ interface IVault is IERC20Burnable {
 
     function staking() external view returns (address);
 
-    function stakingPoolEnabled() external view returns (bool);
-
     function government() external view returns (address);
 
     function bnft() external view returns (address);

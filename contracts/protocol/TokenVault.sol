@@ -103,7 +103,7 @@ contract TokenVault is
     /// @notice  gap for reserve, minus 1 if use
     uint256[10] public __gapUint256;
     /// @notice  gap for reserve, minus 1 if use
-    address[5] public __gapAddress;
+    uint256[5] public __gapAddress;
 
     /// ------------------------
     /// -------- EVENTS --------
@@ -280,12 +280,14 @@ contract TokenVault is
             exitLength > 0 &&
             block.timestamp >= fractionStart + exitLength
         ) {
-            (reducePrice) = TokenVaultLogic.getReducerPrice(
-                reducePrice,
-                fractionStart,
-                exitLength,
-                settings
-            );
+            uint256 reduceNum = (block.timestamp -
+                (fractionStart + exitLength)) /
+                ISettings(settings).auctionLength();
+            for (uint256 idx = 0; idx < reduceNum; idx++) {
+                reducePrice =
+                    (reducePrice * (10000 - ISettings(settings).reduceStep())) /
+                    10000;
+            }
         }
         return reducePrice;
     }
