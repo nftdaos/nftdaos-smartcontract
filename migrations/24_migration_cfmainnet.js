@@ -16,9 +16,9 @@ module.exports = async function (deployer, network) {
     }
     settingsProxy = await Settings.at(deployData['SettingsProxy']);
 
-    if ((await settingsProxy.auctionLength()).toString() != '604800') {
-      await settingsProxy.setAuctionLength(604800);
-      console.log('settingsProxy.setAuctionLength(604800)')
+    if ((await settingsProxy.auctionLength()).toString() != '86400') {
+      await settingsProxy.setAuctionLength(86400);
+      console.log('settingsProxy.setAuctionLength(86400)')
     }
     if ((await settingsProxy.auctionExtendLength()).toString() != '1800') {
       await settingsProxy.setAuctionExtendLength(1800);
