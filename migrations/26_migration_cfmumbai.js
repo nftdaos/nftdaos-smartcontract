@@ -68,5 +68,9 @@ module.exports = async function (deployer, network) {
       await settingsProxy.setReduceStep(500);
       console.log('settingsProxy.setReduceStep(500)')
     }
+    {
+      await settingsProxy.setBnftURI('https://dev.fdao.co/bnft/');
+      console.log('settingsProxy.setBnftURI()', 'https://dev.fdao.co/bnft/')
+    }
   }
 }
