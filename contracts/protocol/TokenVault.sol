@@ -103,7 +103,7 @@ contract TokenVault is
     /// @notice  gap for reserve, minus 1 if use
     uint256[10] public __gapUint256;
     /// @notice  gap for reserve, minus 1 if use
-    uint256[5] public __gapAddress;
+    address[5] public __gapAddress;
 
     /// ------------------------
     /// -------- EVENTS --------
