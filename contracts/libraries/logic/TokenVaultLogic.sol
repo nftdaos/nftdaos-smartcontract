@@ -26,7 +26,13 @@ library TokenVaultLogic {
         address firstToken,
         uint256 firstId
     ) external returns (address) {
-        string memory name = IERC721MetadataUpgradeable(firstToken).name();
+        string memory name = string(
+            abi.encodePacked(
+                IERC721MetadataUpgradeable(firstToken).name(),
+                " #",
+                firstId.toString()
+            )
+        );
         string memory symbol = string(
             abi.encodePacked(
                 IERC721MetadataUpgradeable(firstToken).symbol(),
@@ -44,9 +50,11 @@ library TokenVaultLogic {
         return bnft;
     }
 
-    function getUpdateUserPrice(
-        DataTypes.VaultGetUpdateUserPrice memory params
-    ) external view returns (uint256, uint256) {
+    function getUpdateUserPrice(DataTypes.VaultGetUpdateUserPrice memory params)
+        external
+        view
+        returns (uint256, uint256)
+    {
         address settings = params.settings;
         uint256 votingTokens = params.votingTokens;
         uint256 exitTotal = params.exitTotal;
@@ -389,9 +397,10 @@ library TokenVaultLogic {
         livePrice = bidPrice;
     }
 
-    function end(
-        address vaultAddress
-    ) external returns (DataTypes.State auctionState) {
+    function end(address vaultAddress)
+        external
+        returns (DataTypes.State auctionState)
+    {
         IVault vault = IVault(vaultAddress);
         ISettings settings = ISettings(vault.settings());
         auctionState = vault.auctionState();
@@ -437,10 +446,10 @@ library TokenVaultLogic {
         auctionState = DataTypes.State.ended;
     }
 
-    function redeem(
-        address vaultAddress,
-        address msgSender
-    ) external returns (DataTypes.State auctionState) {
+    function redeem(address vaultAddress, address msgSender)
+        external
+        returns (DataTypes.State auctionState)
+    {
         IVault vault = IVault(vaultAddress);
         ISettings settings = ISettings(vault.settings());
         auctionState = vault.auctionState();
