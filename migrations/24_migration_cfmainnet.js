@@ -16,9 +16,9 @@ module.exports = async function (deployer, network) {
     }
     settingsProxy = await Settings.at(deployData['SettingsProxy']);
 
-    if ((await settingsProxy.auctionLength()).toString() != '86400') {
-      await settingsProxy.setAuctionLength(86400);
-      console.log('settingsProxy.setAuctionLength(86400)')
+    if ((await settingsProxy.auctionLength()).toString() != '259200') {
+      await settingsProxy.setAuctionLength(259200);
+      console.log('settingsProxy.setAuctionLength(259200)')
     }
     if ((await settingsProxy.auctionExtendLength()).toString() != '1800') {
       await settingsProxy.setAuctionExtendLength(1800);
@@ -67,6 +67,10 @@ module.exports = async function (deployer, network) {
     if ((await settingsProxy.reduceStep()).toString() != '500') {
       await settingsProxy.setReduceStep(500);
       console.log('settingsProxy.setReduceStep(500)')
+    }
+    {
+      await settingsProxy.setBnftURI('https://www.nftdaos.wtf/bnft/eth/');
+      console.log('settingsProxy.setBnftURI()', 'https://www.nftdaos.wtf/bnft/eth/')
     }
   }
 }

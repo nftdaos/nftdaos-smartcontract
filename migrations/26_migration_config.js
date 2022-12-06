@@ -16,33 +16,33 @@ module.exports = async function (deployer, network) {
     }
     settingsProxy = await Settings.at(deployData['SettingsProxy']);
 
-    if ((await settingsProxy.auctionLength()).toString() != '1800') {
-      await settingsProxy.setAuctionLength(1800);
-      console.log('settingsProxy.setAuctionLength(1800)')
+    if ((await settingsProxy.auctionLength()).toString() != '86400') {
+      await settingsProxy.setAuctionLength(86400);
+      console.log('settingsProxy.setAuctionLength(86400)')
     }
-    if ((await settingsProxy.auctionExtendLength()).toString() != '600') {
-      await settingsProxy.setAuctionExtendLength(600);
-      console.log('settingsProxy.setAuctionExtendLength(600)')
+    if ((await settingsProxy.auctionExtendLength()).toString() != '1800') {
+      await settingsProxy.setAuctionExtendLength(1800);
+      console.log('settingsProxy.setAuctionExtendLength(1800)')
     }
-    if ((await settingsProxy.votingDelayBlock()).toString() != '12') {
-      await settingsProxy.setVotingDelayBlock(12);
-      console.log('settingsProxy.setVotingDelayBlock(12)')
+    if ((await settingsProxy.votingDelayBlock()).toString() != '14400') {
+      await settingsProxy.setVotingDelayBlock(14400);
+      console.log('settingsProxy.setVotingDelayBlock(14400)')
     }
-    if ((await settingsProxy.votingPeriodBlock()).toString() != '30') {
-      await settingsProxy.setVotingPeriodBlock(30);
-      console.log('settingsProxy.setVotingPeriodBlock(30)')
+    if ((await settingsProxy.votingPeriodBlock()).toString() != '36000') {
+      await settingsProxy.setVotingPeriodBlock(36000);
+      console.log('settingsProxy.setVotingPeriodBlock(36000)')
     }
-    if ((await settingsProxy.term1Duration()).toString() != '600') {
-      await settingsProxy.setTerm1Duration(600);
-      console.log('settingsProxy.setTerm1Duration(600)')
+    if ((await settingsProxy.term1Duration()).toString() != '15724800') {
+      await settingsProxy.setTerm1Duration(15724800);
+      console.log('settingsProxy.setTerm1Duration(15724800)')
     }
-    if ((await settingsProxy.term2Duration()).toString() != '1200') {
-      await settingsProxy.setTerm2Duration(1200);
-      console.log('settingsProxy.setTerm2Duration(1200)')
+    if ((await settingsProxy.term2Duration()).toString() != '31449600') {
+      await settingsProxy.setTerm2Duration(31449600);
+      console.log('settingsProxy.setTerm2Duration(31449600)')
     }
-    if ((await settingsProxy.epochDuration()).toString() != '300') {
-      await settingsProxy.setEpochDuration(300);
-      console.log('settingsProxy.setEpochDuration(300)')
+    if ((await settingsProxy.epochDuration()).toString() != '86400') {
+      await settingsProxy.setEpochDuration(86400);
+      console.log('settingsProxy.setEpochDuration(86400)')
     }
     if ((await settingsProxy.feePercentage()).toString() != '8000') {
       await settingsProxy.setFeePercentage(8000);

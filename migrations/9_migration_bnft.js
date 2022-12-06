@@ -45,5 +45,12 @@ module.exports = async function (deployer, network) {
       }
       tokenVaultBnftProxy = await TokenVaultBnftProxy.at(deployData['TokenVaultBnftProxy']);
     }
+    await verifyContract(
+      deployData,
+      config,
+      'TokenVaultBnft',
+      deployData['TokenVaultBnft'],
+      '',
+    )
   }
 };

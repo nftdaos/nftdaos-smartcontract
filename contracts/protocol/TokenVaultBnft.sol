@@ -72,9 +72,9 @@ contract TokenVaultBnft is
                 ? string(
                     abi.encodePacked(
                         bnftURI,
-                        vault.listTokens(0).toHexString(),
+                        address(vault).toHexString(),
                         "/",
-                        vault.listIds(0).toString(),
+                        tokenId.toString(),
                         ".json"
                     )
                 )

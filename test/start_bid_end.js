@@ -126,7 +126,7 @@ contract("Fraction", function (accounts) {
   })
 
   it("mint vault sucessful", async function () {
-    //
+    // 
     let testERC721 = await TestERC721.new('XXX', 'XXX');
 
     testERC721.mint(accounts[0], '1', '');
