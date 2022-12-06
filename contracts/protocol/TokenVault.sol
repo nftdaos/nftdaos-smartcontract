@@ -452,6 +452,11 @@ contract TokenVault is
             auctionState == DataTypes.State.ended,
             Errors.VAULT_STATE_INVALID
         );
+        uint256 veBalance = IStaking(staking).userFTokens(msg.sender);
+        if (veBalance > 0) {
+            IStaking(staking).vaultRedeemFToken(msg.sender, veBalance);
+        }
+
         uint256 bal = balanceOf(msg.sender);
         require(bal > 0, Errors.VAULT_BALANCE_INVALID);
 

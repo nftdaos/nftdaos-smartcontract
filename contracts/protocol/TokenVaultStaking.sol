@@ -23,7 +23,7 @@ contract TokenVaultStaking is
     ERC20PermitUpgradeable,
     ERC20VotesUpgradeable
 {
-    uint256 constant REWARD_PER_SHARE_PRECISION = 10**24;
+    uint256 constant REWARD_PER_SHARE_PRECISION = 10 ** 24;
     /// @notice vaultToken
     address public vaultToken;
 
@@ -70,10 +70,9 @@ contract TokenVaultStaking is
 
     event Withdraw(address staker, uint256 poolId, uint256 sId, uint256 amount);
 
-    constructor(address _settings)
-        SettingStorage(_settings)
-        ERC20Upgradeable()
-    {}
+    constructor(
+        address _settings
+    ) SettingStorage(_settings) ERC20Upgradeable() {}
 
     function initialize(
         string memory _veSymbol,
@@ -228,10 +227,10 @@ contract TokenVaultStaking is
     /**
      * for deposit staking token
      */
-    function deposit(uint256 amount, uint256 poolId)
-        external
-        validPool(poolId)
-    {
+    function deposit(
+        uint256 amount,
+        uint256 poolId
+    ) external validPool(poolId) {
         require(!ITreasury(IVault(vaultToken).treasury()).isEnded(), "ended");
         require(amount > 0, "zero amount");
         //
@@ -382,37 +381,30 @@ contract TokenVaultStaking is
             );
     }
 
-    function stakingInfoSharedPerToken(uint256 sId, IERC20 _token)
-        external
-        view
-        returns (uint256)
-    {
+    function stakingInfoSharedPerToken(
+        uint256 sId,
+        IERC20 _token
+    ) external view returns (uint256) {
         require(stakingInfos[sId].amount > 0, Errors.VAULT_ZERO_AMOUNT);
         return stakingInfos[sId].sharedPerTokens[_token];
     }
 
-    function stakingInfoSharedPerVaultToken(uint256 sId)
-        external
-        view
-        returns (uint256)
-    {
+    function stakingInfoSharedPerVaultToken(
+        uint256 sId
+    ) external view returns (uint256) {
         require(stakingInfos[sId].amount > 0, Errors.VAULT_ZERO_AMOUNT);
         return stakingInfos[sId].sharedPerTokens[IERC20(vaultToken)];
     }
 
-    function rewardInfoTokenBalance(IERC20 _token)
-        external
-        view
-        returns (uint256)
-    {
+    function rewardInfoTokenBalance(
+        IERC20 _token
+    ) external view returns (uint256) {
         return rewardInfos[_token].currentBalance;
     }
 
-    function getSharedPerToken(IERC20 _token)
-        external
-        view
-        returns (uint256 sharedPerToken1, uint256 sharedPerToken2)
-    {
+    function getSharedPerToken(
+        IERC20 _token
+    ) external view returns (uint256 sharedPerToken1, uint256 sharedPerToken2) {
         return
             TokenVaultStakingLogic.getSharedPerToken(
                 DataTypes.GetSharedPerTokenParams({
@@ -436,21 +428,17 @@ contract TokenVaultStaking is
 
     /** ve token is untransferable */
 
-    function approve(address spender, uint256 amount)
-        public
-        virtual
-        override
-        returns (bool)
-    {
+    function approve(
+        address spender,
+        uint256 amount
+    ) public virtual override returns (bool) {
         revert("not allow");
     }
 
-    function transfer(address to, uint256 amount)
-        public
-        virtual
-        override
-        returns (bool)
-    {
+    function transfer(
+        address to,
+        uint256 amount
+    ) public virtual override returns (bool) {
         revert("not allow");
     }
 
@@ -497,27 +485,38 @@ contract TokenVaultStaking is
      * redeem veToken to fToken
      */
     function redeemFToken(uint256 amount) external {
+        _redeemFToken(msg.sender, amount);
+    }
+
+    function vaultRedeemFToken(
+        address user,
+        uint256 amount
+    ) external onlyOwner {
+        _redeemFToken(user, amount);
+    }
+
+    function _redeemFToken(address user, uint256 amount) internal {
         require(amount > 0, "zero amount");
         //
         changingBalance = amount;
         //
-        uint256 userBalance = userFTokens[msg.sender];
+        uint256 userBalance = userFTokens[user];
         require(userBalance >= amount, "invalid amount balance");
-        //transfer vaultToken to msg.sender
-        TransferHelper.safeTransfer(IERC20(vaultToken), msg.sender, amount);
-        //transfer ve-token from msg.sender to this contract
-        _transfer(msg.sender, address(this), amount);
+        //transfer vaultToken to user
+        TransferHelper.safeTransfer(IERC20(vaultToken), user, amount);
+        //transfer ve-token from user to this contract
+        _transfer(user, address(this), amount);
         //update balance
         userBalance = userBalance - amount;
-        userFTokens[msg.sender] = userBalance;
+        userFTokens[user] = userBalance;
 
         totalUserFToken = totalUserFToken - amount;
         //
         changingBalance = 0;
         //
-        _burnBnft(msg.sender);
+        _burnBnft(user);
         //
-        emit RedeemVeToken(msg.sender, amount);
+        emit RedeemVeToken(user, amount);
     }
 
     // for BNFT
@@ -542,19 +541,17 @@ contract TokenVaultStaking is
     }
 
     //FOR PROPOSAL
-    function _mint(address account, uint256 amount)
-        internal
-        virtual
-        override(ERC20Upgradeable, ERC20VotesUpgradeable)
-    {
+    function _mint(
+        address account,
+        uint256 amount
+    ) internal virtual override(ERC20Upgradeable, ERC20VotesUpgradeable) {
         return ERC20VotesUpgradeable._mint(account, amount);
     }
 
-    function _burn(address account, uint256 amount)
-        internal
-        virtual
-        override(ERC20Upgradeable, ERC20VotesUpgradeable)
-    {
+    function _burn(
+        address account,
+        uint256 amount
+    ) internal virtual override(ERC20Upgradeable, ERC20VotesUpgradeable) {
         return ERC20VotesUpgradeable._burn(account, amount);
     }
 
