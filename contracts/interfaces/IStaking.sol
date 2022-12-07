@@ -15,8 +15,6 @@ interface IStaking is IERC20Upgradeable {
 
     function changingBalance() external view returns (uint256);
 
-    function userFTokens(address user) external view returns (uint256);
-
     function addRewardToken(address _addr) external;
 
     function deposit(uint256 amount, uint256 poolId) external;
@@ -27,5 +25,5 @@ interface IStaking is IERC20Upgradeable {
 
     function redeemFToken(uint256 amount) external;
 
-    function vaultRedeemFToken(address user, uint256 amount) external;
+    function vaultRedeemUserFToken(address user) external;
 }

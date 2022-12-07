@@ -488,11 +488,11 @@ contract TokenVaultStaking is
         _redeemFToken(msg.sender, amount);
     }
 
-    function vaultRedeemFToken(
-        address user,
-        uint256 amount
-    ) external onlyOwner {
-        _redeemFToken(user, amount);
+    function vaultRedeemUserFToken(address user) external onlyOwner {
+        uint256 amount = userFTokens[user];
+        if (amount > 0) {
+            _redeemFToken(user, amount);
+        }
     }
 
     function _redeemFToken(address user, uint256 amount) internal {
