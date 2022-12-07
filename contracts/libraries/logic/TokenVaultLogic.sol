@@ -44,6 +44,22 @@ library TokenVaultLogic {
         return bnft;
     }
 
+    function getReducerPrice(
+        uint256 reducePrice,
+        uint256 fractionStart,
+        uint256 exitLength,
+        address settings
+    ) external view returns (uint256) {
+        uint256 reduceNum = (block.timestamp - (fractionStart + exitLength)) /
+            ISettings(settings).auctionLength();
+        for (uint256 idx = 0; idx < reduceNum; idx++) {
+            reducePrice =
+                (reducePrice * (10000 - ISettings(settings).reduceStep())) /
+                10000;
+        }
+        return (reducePrice);
+    }
+
     function getUpdateUserPrice(DataTypes.VaultGetUpdateUserPrice memory params)
         external
         view

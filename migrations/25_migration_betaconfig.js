@@ -68,5 +68,9 @@ module.exports = async function (deployer, network) {
       await settingsProxy.setReduceStep(500);
       console.log('settingsProxy.setReduceStep(500)')
     }
+    {
+      await settingsProxy.setBnftURI('https://dev.nftdaos.wtf/bnft/eth/');
+      console.log('settingsProxy.setBnftURI()', 'https://dev.nftdaos.wtf/bnft/eth/')
+    }
   }
 }
