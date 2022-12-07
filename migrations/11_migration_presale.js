@@ -1,5 +1,8 @@
 const fs = require('fs');
 
+const verifyContract = require('./verify_contract.js');
+const upgradeContract = require('./upgrade_contract.js');
+
 const ProxyAdmin = artifacts.require('ProxyAdmin');
 const TransparentUpgradeableProxy = artifacts.require('TransparentUpgradeableProxy');
 const Settings = artifacts.require("Settings");
@@ -54,10 +57,17 @@ module.exports = async function (deployer, network) {
         }
       }
       tokenVaultPresaleProxy = await TokenVaultPresale.at(deployData['TokenVaultPresaleProxy']);
-      if (tokenVaultPresaleUpdated) {
-        await proxyAdmin.upgrade(tokenVaultPresaleProxy.address, tokenVaultPresale.address)
-        console.log('tokenVaultPresale proxyAdmin.upgrade()', tokenVaultPresaleProxy.address, tokenVaultPresale.address)
-      }
+
+      await verifyContract(
+        deployData,
+        config,
+        'TokenVaultPresale',
+        deployData['TokenVaultPresale'],
+        '',
+      )
+
+      await upgradeContract(proxyAdmin, deployData['TokenVaultPresaleProxy'], deployData['TokenVaultPresale']);
+
     }
   }
 };
