@@ -1,4 +1,5 @@
 const fs = require('fs');
+const verifyContract = require('./verify_contract.js');
 
 const Settings = artifacts.require("Settings");
 const TokenVaultStaking = artifacts.require("TokenVaultStaking");
@@ -48,5 +49,13 @@ module.exports = async function (deployer, network) {
       }
       tokenVaultStakingProxy = await TokenVaultStakingProxy.at(deployData['TokenVaultStakingProxy']);
     }
+    // 
+    await verifyContract(
+      deployData,
+      config,
+      'TokenVaultStaking',
+      deployData['TokenVaultStaking'],
+      '',
+    )
   }
 };

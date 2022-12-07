@@ -1,6 +1,10 @@
 const fs = require('fs');
 const verify = require('truffle-plugin-verify');
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 module.exports = async function (deployData, config, contractName, contractAddress, customProxy, forceConstructorArgs) {
     if (contractAddress != undefined && contractAddress != '') {
         let fileName = process.cwd() + '/migrations/deployed_' + config.network + '.json';
@@ -15,6 +19,7 @@ module.exports = async function (deployData, config, contractName, contractAddre
                 if (forceConstructorArgs != undefined && forceConstructorArgs != '') {
                     config.forceConstructorArgs = 'string:' + forceConstructorArgs
                 }
+                await sleep(30000)
                 await verify(
                     config,
                 )

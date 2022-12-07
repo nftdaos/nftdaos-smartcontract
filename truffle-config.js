@@ -117,7 +117,7 @@ module.exports = {
       provider: function () {
         return new HDWalletProvider([process.env.PRIVATE_KEY], "https://polygon-testnet.public.blastapi.io/");
       },
-      network_id: "*",       // Any network (default: none)
+      network_id: "80001",       // Any network (default: none)
       gas: 8000000,
       // gasPrice: 3 * (10 ** 9),
       migration: true,
