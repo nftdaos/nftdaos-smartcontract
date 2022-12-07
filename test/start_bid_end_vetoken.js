@@ -145,46 +145,24 @@ contract("Fraction", function (accounts) {
     await settings.setAuctionLength(2);
     await settings.setAuctionExtendLength(2);
 
-    console.log('tokenVault.exitReducePrice()', web3.utils.fromWei((await tokenVault.exitReducePrice()).toString(), 'ether'));
-
-    await tokenVault.transfer(accounts[1], web3.utils.toWei('0.5', 'ether'), { from: accounts[0] })
-
     await tokenVaultStaking.convertFTokenToVeToken(web3.utils.toWei('0.5', 'ether'));
 
-    await weth.deposit({from: accounts[6], value: web3.utils.toWei('1')})
-    await weth.transfer(tokenVault.address, web3.utils.toWei('1'), {from: accounts[6]})
-    await web3.eth.sendTransaction({ from: accounts[5], to: tokenVault.address, value: web3.utils.toWei('1') })
+    await weth.deposit({from: accounts[1], value: web3.utils.toWei('1')})
 
-    console.log('web3.eth.getBalance-0', accounts[0], (await web3.eth.getBalance(accounts[0])).toString())
-    await tokenVault.start(web3.utils.toWei('1', 'ether'), { from: accounts[0], value: web3.utils.toWei('0.5125', 'ether') });
-    console.log('tokenVault.start-0')
-    console.log('web3.eth.getBalance-0', accounts[0], (await web3.eth.getBalance(accounts[0])).toString())
-
-    await tokenVault.bid(web3.utils.toWei('1.1', 'ether'), { from: accounts[1], value: web3.utils.toWei('0.56375', 'ether') });
-    console.log('tokenVault.bid-1')
-
-    console.log('web3.eth.getBalance-0', accounts[0], (await web3.eth.getBalance(accounts[0])).toString())
+    await tokenVault.start(web3.utils.toWei('1', 'ether'), { from: accounts[1], value: web3.utils.toWei('1', 'ether') });
+    console.log('tokenVault.start-1')
 
     await sleep(2000);
 
-    console.log('tokenVault.auctionState()', (await tokenVault.auctionState()).toString());
-
-    console.log('web3.eth.getBalance-1', accounts[1], (await web3.eth.getBalance(accounts[1])).toString())
-    await tokenVault.end({ from: accounts[5] });
-    console.log('web3.eth.getBalance-1', accounts[1], (await web3.eth.getBalance(accounts[1])).toString())
+    await tokenVault.end({ from: accounts[1] });
+    console.log('tokenVault.start-1')
 
     console.log('testERC721.ownerOf-1', accounts[1], (await testERC721.ownerOf(1)).toString())
     console.log('testERC721.ownerOf-2', accounts[1], (await testERC721.ownerOf(2)).toString())
 
-    console.log('web3.eth.getBalance-tokenVault', tokenVault.address, (await web3.eth.getBalance(tokenVault.address)).toString())
-
     console.log('web3.eth.getBalance-0', accounts[0], (await web3.eth.getBalance(accounts[0])).toString())
     await tokenVault.cash({ from: accounts[0] });
     console.log('web3.eth.getBalance-0', accounts[0], (await web3.eth.getBalance(accounts[0])).toString())
-
-    // console.log('web3.eth.getBalance-1', accounts[1], (await web3.eth.getBalance(accounts[1])).toString())
-    // await tokenVault.cash({ from: accounts[1] });
-    // console.log('web3.eth.getBalance-1', accounts[1], (await web3.eth.getBalance(accounts[1])).toString())
 
     return assert.isTrue(true);
   });

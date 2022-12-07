@@ -140,10 +140,9 @@ contract TokenVault is
 
     receive() external payable {}
 
-    function initialize(DataTypes.TokenVaultInitializeParams memory params)
-        external
-        initializer
-    {
+    function initialize(
+        DataTypes.TokenVaultInitializeParams memory params
+    ) external initializer {
         // initialize inherited contracts
         __ERC20_init(params.name, params.symbol);
         __Ownable_init();
@@ -452,16 +451,18 @@ contract TokenVault is
             auctionState == DataTypes.State.ended,
             Errors.VAULT_STATE_INVALID
         );
+        // redeem all veToken
+        IStaking(staking).vaultRedeemUserFToken(msg.sender);
+        //
         uint256 bal = balanceOf(msg.sender);
         require(bal > 0, Errors.VAULT_BALANCE_INVALID);
-
         // share cash
         uint256 share = (bal * TransferHelper.balanceOfETH(address(this))) /
             totalSupply();
         _burn(msg.sender, bal);
-
+        // transfer WETH
         TransferHelper.safeTransferETHOrWETH(address(weth), msg.sender, share);
-
+        // event
         emit Cash(msg.sender, share);
     }
 

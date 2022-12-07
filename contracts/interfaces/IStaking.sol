@@ -24,4 +24,6 @@ interface IStaking is IERC20Upgradeable {
     function convertFTokenToVeToken(uint256 amount) external;
 
     function redeemFToken(uint256 amount) external;
+
+    function vaultRedeemUserFToken(address user) external;
 }
