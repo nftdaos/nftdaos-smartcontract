@@ -50,6 +50,12 @@ contract TokenVaultPresale is
         uint256 amount
     );
 
+    event PresaleUpdated(
+        address indexed curator,
+        address indexed token,
+        uint256 rate
+    );
+
     function createPresale(
         address _token,
         uint256 _cap,
@@ -58,7 +64,7 @@ contract TokenVaultPresale is
         require(!presaleTokens[_token], "invalid token");
         require(_cap > 0, "invalid cap");
         require(_rate > 0, "invalid rate");
-        require(IVault(_token).curator() == msg.sender, "invalid rate");
+        require(IVault(_token).curator() == msg.sender, "invalid curator");
         require(
             IERC20(_token).allowance(msg.sender, address(this)) >= _cap,
             "invalid allowance"
@@ -68,8 +74,17 @@ contract TokenVaultPresale is
         maxs[_token] = _cap;
         rates[_token] = _rate;
         curators[_token] = msg.sender;
-
         emit PresaleCreated(msg.sender, _token, _cap, _rate);
+    }
+
+    function updatePresale(
+        address _token,
+        uint256 _rate
+    ) external whenNotPaused {
+        require(presaleTokens[_token], "invalid token");
+        require(curators[_token] == msg.sender, "invalid curator");
+        rates[_token] = _rate;
+        emit PresaleUpdated(msg.sender, _token, _rate);
     }
 
     // revert
@@ -84,7 +99,7 @@ contract TokenVaultPresale is
         uint256 validAmount = amount.mul(10000) /
             (10000 + ISettings(settings).presaleFeePercentage());
         // compute amount of tokens
-        uint256 tokens = validAmount.mul(10**IVault(_token).decimals()).div(
+        uint256 tokens = validAmount.mul(10 ** IVault(_token).decimals()).div(
             rates[_token]
         );
         uint256 cap = caps[_token];
