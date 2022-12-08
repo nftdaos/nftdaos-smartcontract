@@ -83,6 +83,7 @@ contract TokenVaultPresale is
     ) external whenNotPaused {
         require(presaleTokens[_token], "invalid token");
         require(curators[_token] == msg.sender, "invalid curator");
+        require(caps[_token] == maxs[_token], "invalid caps maxs");
         rates[_token] = _rate;
         emit PresaleUpdated(msg.sender, _token, _rate);
     }
