@@ -146,7 +146,11 @@ contract("Mint", function (accounts) {
 
     console.log((await tokenVaultPresale.rates(tokenVault.address)).toString())
 
-    await tokenVaultPresale.updatePresale(tokenVault.address, web3.utils.toWei('0.5', 'ether'), {from: accounts[1]})
+    // await tokenVaultPresale.buyTokens(tokenVault.address, {from: accounts[1], value: web3.utils.toWei('0.5', 'ether')})
+
+    await tokenVaultPresale.updatePresale(tokenVault.address, web3.utils.toWei('0.5', 'ether'))
+
+    // await tokenVaultPresale.updatePresale(tokenVault.address, web3.utils.toWei('0.5', 'ether'), {from: accounts[1]})
 
     console.log((await tokenVaultPresale.rates(tokenVault.address)).toString())
 
