@@ -451,7 +451,6 @@ library TokenVaultLogic {
         returns (DataTypes.State auctionState)
     {
         IVault vault = IVault(vaultAddress);
-        ISettings settings = ISettings(vault.settings());
         auctionState = vault.auctionState();
         require(
             auctionState == DataTypes.State.inactive,
@@ -459,6 +458,7 @@ library TokenVaultLogic {
         );
         // terminate treasury
         TokenVaultTreasuryLogic.end(vault.treasury());
+        // 
         require(
             vault.balanceOf(msgSender) == vault.totalSupply(),
             Errors.VAULT_MISSING_TOKEN_TO_REDEEM

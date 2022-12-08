@@ -439,6 +439,9 @@ contract TokenVault is
 
     /// @notice an external function to burn all ERC20 tokens to receive the ERC721 token
     function redeem() external {
+        // redeem all veToken
+        IStaking(staking).vaultRedeemUserFToken(msg.sender);
+        // for redeem
         auctionState = TokenVaultLogic.redeem(address(this), msg.sender);
         // burn all
         _burn(msg.sender, totalSupply());
