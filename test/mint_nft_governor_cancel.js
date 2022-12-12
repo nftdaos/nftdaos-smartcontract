@@ -161,7 +161,7 @@ contract("Mint", function (accounts) {
     rs = await tokenVaultTreasury.createNftGovernorVoteFor('1', { from: accounts[0] });
     // console.log(rs);
 
-    let proposalEvent = TokenVaultGovernor.decodeLogs(rs.receipt.rawLogs)[0].args
+    let proposalEvent = TokenVaultGovernor.decodeLogs(rs.receipt.rawLogs)[0].args;
     console.log(proposalEvent);
 
      sleep(5000);
